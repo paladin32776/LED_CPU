@@ -10,6 +10,7 @@
 #define PWM_GREEN 6
 #define PWM_RED 6
 #define PWM_BLUE 20
+#define PWM_YELLOW 20
 
 #define CTRL_BIT_G1 0
 #define CTRL_BIT_RB 1
@@ -54,4 +55,16 @@ class LED_MANUAL
 	public:
 		LED_MANUAL();
 		void update(unsigned char data, unsigned char ctrl);
+};
+
+class LED_CONTROL
+{
+	private:
+		PCA9955 *leds1, *leds2;
+		unsigned char reverse4bit(unsigned char x);
+	public:
+		LED_CONTROL();
+		void update(unsigned char bus, unsigned char ctrl, unsigned char counter,
+			unsigned char ccount, unsigned char cset, unsigned char creset,
+			unsigned char pcount, unsigned char pset);
 };

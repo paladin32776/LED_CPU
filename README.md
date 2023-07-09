@@ -3,4 +3,8 @@
 
 Abstraction layer to map PCA9955B controlled leds on the 4bitCPU boards into user friendly functions. Library is specific to these PCBs, as led connections/functions are coded accordingly.
 
-Currently the library implements ALU board and MANUAL boards only. 
+Currently the library supports the following board:
+    - ARITHMETIC UNIT
+    - CONTROL UNIT
+    - MANUAL CONTROL
+    
