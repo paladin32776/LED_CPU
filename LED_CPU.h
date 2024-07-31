@@ -1,9 +1,11 @@
 #include "Arduino.h"
 #include "PCA9955.h"
 
+// For PCA9955B:
 // #define PCA_1_ADDRESS 0x01
 // #define PCA_2_ADDRESS 0x05
 
+// For PCA9955:
 #define PCA_1_ADDRESS 0x60
 #define PCA_2_ADDRESS 0x61
 
@@ -42,8 +44,8 @@ class LED_ALU
 		unsigned char reverse4bit(unsigned char x);
 	public:
 		LED_ALU();
-		void update(unsigned char bus, unsigned char ra, unsigned char rb, 
-  						 unsigned char rc, unsigned char ctrl, unsigned char neg, 
+		void update(unsigned char bus, unsigned char ra, unsigned char rb,
+  						 unsigned char rc, unsigned char ctrl, unsigned char neg,
   						 unsigned char overflow);
 };
 
