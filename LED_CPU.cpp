@@ -6,15 +6,15 @@
 
 LED_ALU::LED_ALU()
 {
-	leds1 = new PCA9955(PCA_1_ADDRESS);
-	leds2 = new PCA9955(PCA_2_ADDRESS);
-	leds1->mode(PCA9955::PWM0);
+	leds1 = new LEDDRIVER(PCA_1_ADDRESS);
+	leds2 = new LEDDRIVER(PCA_2_ADDRESS);
+	leds1->mode(LEDDRIVER::PWM0);
 	leds1->dutycycle(PWM_GREEN);
 	leds1->dutycycle(12,PWM_RED); // eADDSUB
 	leds1->dutycycle(13,PWM_RED); // eRA
 	leds1->dutycycle(14,PWM_RED); // eRB
 	leds1->dutycycle(15,PWM_RED); // eG1
-	leds2->mode(PCA9955::PWM0);
+	leds2->mode(LEDDRIVER::PWM0);
 	leds2->dutycycle(PWM_GREEN);
 	leds2->dutycycle(4,PWM_RED);  // eRC
 	leds2->dutycycle(5,PWM_BLUE); // neg
@@ -30,12 +30,12 @@ unsigned char LED_ALU::reverse4bit(unsigned char x)
 	return xout;
 }
 
-void LED_ALU::update(unsigned char bus, unsigned char ra, unsigned char rb, 
-				 		  unsigned char rc, unsigned char ctrl, unsigned char neg, 
+void LED_ALU::update(unsigned char bus, unsigned char ra, unsigned char rb,
+				 		  unsigned char rc, unsigned char ctrl, unsigned char neg,
 				 		  unsigned char overflow)
 {
-	unsigned short leddata1 = (bus & 0x0F) + ((ra & 0x0F)<<4) 
-	                        + ((reverse4bit(rb) & 0x0F)<<8) 
+	unsigned short leddata1 = (bus & 0x0F) + ((ra & 0x0F)<<4)
+	                        + ((reverse4bit(rb) & 0x0F)<<8)
 	                        + (bitRead(ctrl, CTRL_BIT_PM)<<12)
 	                        + (bitRead(ctrl, CTRL_BIT_RA)<<13)
 	                        + (bitRead(ctrl, CTRL_BIT_RB)<<14)
@@ -54,8 +54,8 @@ void LED_ALU::update(unsigned char bus, unsigned char ra, unsigned char rb,
 
 LED_MANUAL::LED_MANUAL()
 {
-	leds1 = new PCA9955(PCA_1_ADDRESS);
-	leds1->mode(PCA9955::PWM0);
+	leds1 = new LEDDRIVER(PCA_1_ADDRESS);
+	leds1->mode(LEDDRIVER::PWM0);
 	leds1->dutycycle(PWM_GREEN);
 	leds1->dutycycle(10,PWM_RED); // eADDSUB
 	leds1->dutycycle(11,PWM_RED); // eRA
@@ -85,14 +85,14 @@ void LED_MANUAL::update(unsigned char data, unsigned char ctrl)
 
 LED_CONTROL::LED_CONTROL()
 {
-	leds1 = new PCA9955(PCA_2_ADDRESS);
-	leds2 = new PCA9955(PCA_1_ADDRESS);
-	leds1->mode(PCA9955::PWM0);
+	leds1 = new LEDDRIVER(PCA_2_ADDRESS);
+	leds2 = new LEDDRIVER(PCA_1_ADDRESS);
+	leds1->mode(LEDDRIVER::PWM0);
 	leds1->dutycycle(PWM_GREEN);
 	leds1->dutycycle(3,PWM_YELLOW); // count
 	leds1->dutycycle(10,PWM_RED); // creset
 	leds1->dutycycle(11,PWM_RED); // cset
-	leds2->mode(PCA9955::PWM0);
+	leds2->mode(LEDDRIVER::PWM0);
 	leds2->dutycycle(PWM_RED);
 }
 
@@ -104,12 +104,12 @@ unsigned char LED_CONTROL::reverse4bit(unsigned char x)
 	return xout;
 }
 
-void LED_CONTROL::update(unsigned char bus, unsigned char ctrl, unsigned char counter, 
+void LED_CONTROL::update(unsigned char bus, unsigned char ctrl, unsigned char counter,
 			unsigned char ccount, unsigned char cset, unsigned char creset,
 			unsigned char pcount, unsigned char pset)
 {
 	unsigned short leddata1 = ((ccount & 1)<<3)
-	                        + ((counter & 0x0F)<<4) 
+	                        + ((counter & 0x0F)<<4)
 	                        + ((creset & 1)<<10)
 	                        + ((cset & 1)<<11)
 	                        + ((reverse4bit(bus) & 0x0F)<<12);

@@ -1,18 +1,38 @@
+// Value for NLEDDRIVER can be 1 = PCA9955, 2 = PCA9955B, or 3 = TLC59116
+#define NLEDDRIVER 3
 #include "Arduino.h"
-#include "PCA9955.h"
 
-// For PCA9955B:
-// #define PCA_1_ADDRESS 0x01
-// #define PCA_2_ADDRESS 0x05
-
-// For PCA9955:
-#define PCA_1_ADDRESS 0x60
-#define PCA_2_ADDRESS 0x61
-
-#define PWM_GREEN 6
-#define PWM_RED 6
-#define PWM_BLUE 20
-#define PWM_YELLOW 20
+#if NLEDDRIVER==1
+	// For PCA9955:
+	#include "PCA9955.h"
+	#define LEDDRIVER PCA9955
+	#define PCA_1_ADDRESS 0x60
+	#define PCA_2_ADDRESS 0x61
+	#define PWM_GREEN 6
+	#define PWM_RED 6
+	#define PWM_BLUE 20
+	#define PWM_YELLOW 20
+#elif NLEDDRIVER==2
+	// For PCA9955B:
+	#include "PCA9955B.h"
+	#define LEDDRIVER PCA9955B
+	#define PCA_1_ADDRESS 0x01
+	#define PCA_2_ADDRESS 0x05
+	#define PWM_GREEN 6
+	#define PWM_RED 6
+	#define PWM_BLUE 20
+	#define PWM_YELLOW 20
+#elif NLEDDRIVER==3
+	// For TLC59116
+	#include "TLC59116.h"
+	#define LEDDRIVER TLC59116
+	#define PCA_1_ADDRESS 0x60
+	#define PCA_2_ADDRESS 0x61
+	#define PWM_GREEN 10
+	#define PWM_RED 10
+	#define PWM_BLUE 10
+	#define PWM_YELLOW 10
+#endif
 
 #define CTRL_BIT_G1 0
 #define CTRL_BIT_RB 1
@@ -40,7 +60,7 @@
 class LED_ALU
 {
 	private:
-		PCA9955 *leds1, *leds2;
+		LEDDRIVER *leds1, *leds2;
 		unsigned char reverse4bit(unsigned char x);
 	public:
 		LED_ALU();
@@ -52,7 +72,7 @@ class LED_ALU
 class LED_MANUAL
 {
 	private:
-		PCA9955 *leds1;
+		LEDDRIVER *leds1;
 		unsigned char reverse4bit(unsigned char x);
 	public:
 		LED_MANUAL();
@@ -62,7 +82,7 @@ class LED_MANUAL
 class LED_CONTROL
 {
 	private:
-		PCA9955 *leds1, *leds2;
+		LEDDRIVER *leds1, *leds2;
 		unsigned char reverse4bit(unsigned char x);
 	public:
 		LED_CONTROL();
