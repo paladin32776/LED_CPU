@@ -85,8 +85,8 @@ void LED_MANUAL::update(unsigned char data, unsigned char ctrl)
 
 LED_CONTROL::LED_CONTROL()
 {
-	leds1 = new LEDDRIVER(PCA_2_ADDRESS);
-	leds2 = new LEDDRIVER(PCA_1_ADDRESS);
+	leds1 = new LEDDRIVER(PCA_1_ADDRESS);
+	leds2 = new LEDDRIVER(PCA_2_ADDRESS);
 	leds1->mode(LEDDRIVER::PWM0);
 	leds1->dutycycle(PWM_GREEN);
 	leds1->dutycycle(3,PWM_YELLOW); // count
