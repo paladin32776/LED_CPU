@@ -85,8 +85,8 @@ void LED_MANUAL::update(unsigned char data, unsigned char ctrl)
 
 LED_CONTROL::LED_CONTROL()
 {
-	leds1 = new LEDDRIVER(PCA_1_ADDRESS);
-	leds2 = new LEDDRIVER(PCA_2_ADDRESS);
+	leds1 = new LEDDRIVER(PCA_2_ADDRESS);
+	leds2 = new LEDDRIVER(PCA_1_ADDRESS);
 	leds1->mode(LEDDRIVER::PWM0);
 	leds1->dutycycle(PWM_GREEN);
 	leds1->dutycycle(3,PWM_YELLOW); // count
@@ -124,3 +124,39 @@ void LED_CONTROL::update(unsigned char bus, unsigned char ctrl, unsigned char co
 	leds1->set_leds(leddata1);
 	leds2->set_leds(leddata2);
 }
+
+// ************************
+// *    PROGRAM MEMORY    *
+// ************************
+
+LED_PROGRAM::LED_PROGRAM()
+{
+	leds1 = new LEDDRIVER(PCA_1_ADDRESS);
+	leds1->mode(LEDDRIVER::PWM0);
+	leds1->dutycycle(PWM_GREEN); // bus (LEDs 4 (MSB) to 7 (LSB))
+	leds1->dutycycle(8,PWM_RED); // count (LED 8)
+	leds1->dutycycle(9,PWM_RED); // cset (LED 9)
+	leds1->dutycycle(12,PWM_YELLOW); // Counter Bit 0 (LED 12)
+	leds1->dutycycle(13,PWM_YELLOW); // Counter Bit 1 (LED 13)
+	leds1->dutycycle(14,PWM_YELLOW); // Counter Bit 2 (LED 14)
+	leds1->dutycycle(15,PWM_YELLOW); // Counter Bit 3 (LED 15)
+}
+
+unsigned char LED_PROGRAM::reverse4bit(unsigned char x)
+{
+	unsigned char xout = 0;
+	for (int n=0; n<4; n++)
+		xout += (bitRead(x,n)<<(3-n));
+	return xout;
+}
+
+void LED_PROGRAM::update(unsigned char bus, unsigned char counter,
+			unsigned char ccount, unsigned char cset)
+{
+	unsigned short leddata1 = ((reverse4bit(bus) & 0x0F)<<4)
+							+ ((ccount & 1)<<8)
+	                        + ((cset & 1)<<9)
+	                        + ((counter & 0x0F)<<12);
+	leds1->set_leds(leddata1);
+}
+

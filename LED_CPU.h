@@ -1,5 +1,5 @@
 // Value for NLEDDRIVER can be 1 = PCA9955, 2 = PCA9955B, or 3 = TLC59116
-#define NLEDDRIVER 3
+#define NLEDDRIVER 1
 #include "Arduino.h"
 
 #if NLEDDRIVER==1
@@ -8,7 +8,7 @@
 	#define LEDDRIVER PCA9955
 	#define PCA_1_ADDRESS 0x60
 	#define PCA_2_ADDRESS 0x61
-	#define PWM_GREEN 6
+	#define PWM_GREEN 30
 	#define PWM_RED 6
 	#define PWM_BLUE 20
 	#define PWM_YELLOW 20
@@ -89,4 +89,15 @@ class LED_CONTROL
 		void update(unsigned char bus, unsigned char ctrl, unsigned char counter,
 			unsigned char ccount, unsigned char cset, unsigned char creset,
 			unsigned char pcount, unsigned char pset);
+};
+
+class LED_PROGRAM
+{
+	private:
+		LEDDRIVER *leds1;
+		unsigned char reverse4bit(unsigned char x);
+	public:
+		LED_PROGRAM();
+		void update(unsigned char bus, unsigned char counter,
+			unsigned char ccount, unsigned char cset);
 };
