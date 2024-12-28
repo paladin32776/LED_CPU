@@ -1,5 +1,5 @@
 // Value for NLEDDRIVER can be 1 = PCA9955, 2 = PCA9955B, 3 = TLC59116, 4 = TLC59116 w/screwed-up addressing
-#define NLEDDRIVER 4
+#define NLEDDRIVER 3
 #include "Arduino.h"
 
 #if NLEDDRIVER==1
