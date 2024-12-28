@@ -1,5 +1,5 @@
-// Value for NLEDDRIVER can be 1 = PCA9955, 2 = PCA9955B, or 3 = TLC59116
-#define NLEDDRIVER 1
+// Value for NLEDDRIVER can be 1 = PCA9955, 2 = PCA9955B, 3 = TLC59116, 4 = TLC59116 w/screwed-up addressing
+#define NLEDDRIVER 4
 #include "Arduino.h"
 
 #if NLEDDRIVER==1
@@ -28,6 +28,16 @@
 	#define LEDDRIVER TLC59116
 	#define PCA_1_ADDRESS 0x60
 	#define PCA_2_ADDRESS 0x61
+	#define PWM_GREEN 10
+	#define PWM_RED 10
+	#define PWM_BLUE 10
+	#define PWM_YELLOW 10
+#elif NLEDDRIVER==4
+	// For TLC59116
+	#include "TLC59116.h"
+	#define LEDDRIVER TLC59116
+	#define PCA_1_ADDRESS 0x61
+	#define PCA_2_ADDRESS 0x60
 	#define PWM_GREEN 10
 	#define PWM_RED 10
 	#define PWM_BLUE 10
